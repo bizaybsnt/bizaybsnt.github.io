@@ -1,0 +1,80 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+::selection {
+  background-color: #35405f;
+  color: #fff;
+}
+
+*,
+*:active,
+*:focus,
+*:hover {
+  outline: none;
+}
+
+body {
+  /* background-color: rgba(17, 55, 46, 0.75); */
+  /* background-color: rgba(32, 30, 30, 0.52); */
+
+  /* background-color: rgba(9, 20, 39, 0.83); */
+  background-color: rgba(24, 77, 77, 0.93);
+  /* background-color: rgba(33, 103, 88, 0.9); */
+}
+
+.main {
+  text-align: center;
+  padding-top: 200px;
+}
+
+.pro-name {
+  font-size: 100px;
+  margin: 0;
+  margin-bottom: 15px;
+  font-weight: 400;
+  font-family: 'Rouge Script', cursive;
+  line-height: 90px;
+  color: #fff;
+  letter-spacing: 1px;
+  word-spacing: 6px;
+  text-shadow: -2px -2px #000;
+}
+
+.tagline {
+  font-size: 27px;
+  margin-bottom: 60px;
+  color: #fff;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 300;
+  line-height: 56px;
+  word-spacing: 2px;
+  text-shadow: 2px 2px #1c2725;
+  letter-spacing: 2px;
+  text-transform: capitalize;
+}
+
+.social-text {
+  color: #ccc;
+  font-family: 'Roboto', sans-serif;
+}
+
+.social-links {
+  margin-top: 5%;
+}
+
+.social-links li {
+  display: inline-block;
+}
+
+.social-links li a {
+  color: rgba(255, 255, 255, 0.6);
+  display: block;
+  margin: 0 6px;
+}
+
+.social-links li a:hover {
+  color: #fff;
+}
