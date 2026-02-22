@@ -11,7 +11,7 @@ const translations = {
         'hero.description': 'I build scalable web applications and love solving complex problems through clean, efficient code.',
         'hero.cta': 'Get In Touch',
         'about.title': 'About Me',
-        'about.paragraph1': "I'm a young and self-motivated software engineer from Nepal, currently working in Japan. With in-depth knowledge of programming languages and development tools, I specialize in building scalable web applications and solving complex technical challenges through clean, efficient code.",
+        'about.paragraph1': "I'm a young and self-motivated software engineer from Nepal, currently working in Japan. With bilingual capabilities in English and Japanese, combined with in-depth knowledge of programming languages and development tools, I specialize in building scalable web applications and solving complex technical challenges through clean, efficient code.",
         'about.paragraph2': 'My career has been shaped by working with top-class companies in both Nepal and Japan, including Rakuten in Tokyo and YoungInnovations in Nepal. This international experience has given me unique perspectives on software craftsmanship, attention to detail, and cross-cultural collaboration.',
         'about.paragraph3': "I continuously expand my technical expertise, staying current with modern frameworks and best practices. I'm actively involved in organizing PHPxTKY meetup, fostering community connections. When I'm not coding, I enjoy exploring Japanese culture and contributing to the tech community both in Japan and globally.",
         'experience.title': 'My Journey',
@@ -35,6 +35,7 @@ const translations = {
         'skills.backend': 'Backend',
         'skills.database': 'Database',
         'skills.tools': 'Tools & Other',
+        'skills.languages': 'Languages',
         'contact.title': "Let's Connect",
         'contact.text': "I'm always interested in hearing about new projects and opportunities. Feel free to reach out through any of these platforms.",
         'footer.text': '© 2026 Bijay Basnet. Built with HTML, CSS, JS, and passion.'
@@ -51,7 +52,7 @@ const translations = {
         'hero.description': 'スケーラブルなWebアプリケーションを構築し、クリーンで効率的なコードで複雑な問題を解決することが好きです。',
         'hero.cta': 'お問い合わせ',
         'about.title': '私について',
-        'about.paragraph1': 'ネパール出身の若く意欲的なソフトウェアエンジニアで、現在日本で働いています。プログラミング言語と開発ツールに関する深い知識を持ち、クリーンで効率的なコードを通じてスケーラブルなWebアプリケーションの構築と複雑な技術的課題の解決を専門としています。',
+        'about.paragraph1': 'ネパール出身の若く意欲的なソフトウェアエンジニアで、現在日本で働いています。英語と日本語のバイリンガル能力を持ち、プログラミング言語と開発ツールに関する深い知識と組み合わせて、クリーンで効率的なコードを通じてスケーラブルなWebアプリケーションの構築と複雑な技術的課題の解決を専門としています。',
         'about.paragraph2': '私のキャリアは、ネパールと日本の一流企業で働くことによって形成されました。東京の楽天やネパールのYoungInnovationsでの経験を含みます。この国際的な経験により、ソフトウェアの職人技、細部への注意、そして異文化間の協力について独自の視点を得ることができました。',
         'about.paragraph3': '私は常に技術的な専門知識を拡大し、最新のフレームワークとベストプラクティスに精通しています。PHPxTKY meetupの運営に積極的に関わり、コミュニティの繋がりを育んでいます。コーディングをしていない時は、日本文化を探求したり、日本国内外の技術コミュニティに貢献したりすることを楽しんでいます。',
         'experience.title': '私の経歴',
@@ -75,6 +76,7 @@ const translations = {
         'skills.backend': 'バックエンド',
         'skills.database': 'データベース',
         'skills.tools': 'ツール・その他',
+        'skills.languages': '言語',
         'contact.title': '連絡しましょう',
         'contact.text': '新しいプロジェクトや機会についてお話を伺うことに興味があります。これらのプラットフォームからお気軽にご連絡ください。',
         'footer.text': '© 2026 Bijay Basnet. HTML、CSS、JS、情熱で構築。'
