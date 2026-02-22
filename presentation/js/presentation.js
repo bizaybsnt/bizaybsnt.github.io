@@ -1,0 +1,302 @@
+// Presentation Controller
+class PresentationController {
+    constructor() {
+        this.slides = document.querySelectorAll('.slide');
+        this.indicators = document.querySelectorAll('.indicator');
+        this.currentSlide = 1;
+        this.totalSlides = this.slides.length;
+
+        this.init();
+    }
+
+    init() {
+        // Set up event listeners
+        this.setupNavigation();
+        this.setupKeyboard();
+        this.setupFullscreen();
+        this.setupParticles();
+        this.updateUI();
+
+        // Update slide counter
+        document.querySelector('.total-slides').textContent = this.totalSlides;
+
+        // Show particles on first slide
+        this.toggleParticles();
+    }
+
+    setupParticles() {
+        // Initialize particles.js
+        if (typeof particlesJS !== 'undefined') {
+            particlesJS('particles-js', {
+                particles: {
+                    number: {
+                        value: 80,
+                        density: {
+                            enable: true,
+                            value_area: 800
+                        }
+                    },
+                    color: {
+                        value: '#0f172a'
+                    },
+                    shape: {
+                        type: 'circle'
+                    },
+                    opacity: {
+                        value: 0.5,
+                        random: false
+                    },
+                    size: {
+                        value: 3,
+                        random: true
+                    },
+                    line_linked: {
+                        enable: true,
+                        distance: 150,
+                        color: '#1e40af',
+                        opacity: 0.4,
+                        width: 1.5
+                    },
+                    move: {
+                        enable: true,
+                        speed: 2,
+                        direction: 'none',
+                        random: false,
+                        straight: false,
+                        out_mode: 'out',
+                        bounce: false
+                    }
+                },
+                interactivity: {
+                    detect_on: 'canvas',
+                    events: {
+                        onhover: {
+                            enable: true,
+                            mode: 'repulse'
+                        },
+                        onclick: {
+                            enable: true,
+                            mode: 'push'
+                        },
+                        resize: true
+                    },
+                    modes: {
+                        repulse: {
+                            distance: 100,
+                            duration: 0.4
+                        },
+                        push: {
+                            particles_nb: 4
+                        }
+                    }
+                },
+                retina_detect: true
+            });
+        }
+    }
+
+    toggleParticles() {
+        const particlesContainer = document.getElementById('particles-js');
+        if (this.currentSlide === 1) {
+            particlesContainer.classList.add('active');
+        } else {
+            particlesContainer.classList.remove('active');
+        }
+    }
+
+    setupNavigation() {
+        // Previous button
+        document.querySelector('.prev-button').addEventListener('click', () => {
+            this.previousSlide();
+        });
+
+        // Next button
+        document.querySelector('.next-button').addEventListener('click', () => {
+            this.nextSlide();
+        });
+
+        // Indicator buttons
+        this.indicators.forEach(indicator => {
+            indicator.addEventListener('click', (e) => {
+                const slideNumber = parseInt(e.target.dataset.slide);
+                this.goToSlide(slideNumber);
+            });
+        });
+    }
+
+    setupKeyboard() {
+        document.addEventListener('keydown', (e) => {
+            switch(e.key) {
+                case 'ArrowLeft':
+                case 'ArrowUp':
+                    e.preventDefault();
+                    this.previousSlide();
+                    break;
+                case 'ArrowRight':
+                case 'ArrowDown':
+                case ' ':
+                    e.preventDefault();
+                    this.nextSlide();
+                    break;
+                case 'Home':
+                    e.preventDefault();
+                    this.goToSlide(1);
+                    break;
+                case 'End':
+                    e.preventDefault();
+                    this.goToSlide(this.totalSlides);
+                    break;
+            }
+        });
+    }
+
+    setupFullscreen() {
+        const fullscreenBtn = document.querySelector('.fullscreen-btn');
+
+        fullscreenBtn.addEventListener('click', () => {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => {
+                    console.log('Fullscreen error:', err);
+                });
+            } else {
+                document.exitFullscreen();
+            }
+        });
+
+        // Update button on fullscreen change
+        document.addEventListener('fullscreenchange', () => {
+            const svg = fullscreenBtn.querySelector('svg');
+            if (document.fullscreenElement) {
+                svg.innerHTML = '<path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3"/>';
+            } else {
+                svg.innerHTML = '<path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/>';
+            }
+        });
+    }
+
+    nextSlide() {
+        if (this.currentSlide < this.totalSlides) {
+            this.goToSlide(this.currentSlide + 1);
+        }
+    }
+
+    previousSlide() {
+        if (this.currentSlide > 1) {
+            this.goToSlide(this.currentSlide - 1);
+        }
+    }
+
+    goToSlide(slideNumber) {
+        if (slideNumber < 1 || slideNumber > this.totalSlides) {
+            return;
+        }
+
+        // Remove active class from current slide
+        this.slides[this.currentSlide - 1].classList.remove('active');
+
+        // Add prev class for transition direction
+        if (slideNumber < this.currentSlide) {
+            this.slides[this.currentSlide - 1].classList.add('prev');
+        } else {
+            this.slides[this.currentSlide - 1].classList.remove('prev');
+        }
+
+        // Update current slide
+        this.currentSlide = slideNumber;
+
+        // Add active class to new slide
+        this.slides[this.currentSlide - 1].classList.add('active');
+        this.slides[this.currentSlide - 1].classList.remove('prev');
+
+        // Update UI
+        this.updateUI();
+
+        // Toggle particles visibility
+        this.toggleParticles();
+
+        // Trigger slide animation
+        this.animateSlide();
+    }
+
+    updateUI() {
+        // Update slide counter
+        document.querySelector('.current-slide').textContent = this.currentSlide;
+
+        // Update progress bar
+        const progress = (this.currentSlide / this.totalSlides) * 100;
+        document.querySelector('.progress-fill').style.width = `${progress}%`;
+
+        // Update indicators
+        this.indicators.forEach((indicator, index) => {
+            if (index === this.currentSlide - 1) {
+                indicator.classList.add('active');
+            } else {
+                indicator.classList.remove('active');
+            }
+        });
+
+        // Update navigation buttons
+        const prevBtn = document.querySelector('.prev-button');
+        const nextBtn = document.querySelector('.next-button');
+
+        prevBtn.disabled = this.currentSlide === 1;
+        nextBtn.disabled = this.currentSlide === this.totalSlides;
+    }
+
+    animateSlide() {
+        const currentSlideElement = this.slides[this.currentSlide - 1];
+        const slideBody = currentSlideElement.querySelector('.slide-body');
+
+        // Reset animation
+        slideBody.style.animation = 'none';
+        setTimeout(() => {
+            slideBody.style.animation = '';
+        }, 10);
+    }
+}
+
+// Touch/Swipe support
+let touchStartX = 0;
+let touchEndX = 0;
+
+document.addEventListener('touchstart', (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+});
+
+document.addEventListener('touchend', (e) => {
+    touchEndX = e.changedTouches[0].screenX;
+    handleSwipe();
+});
+
+function handleSwipe() {
+    const swipeThreshold = 50;
+    const diff = touchStartX - touchEndX;
+
+    if (Math.abs(diff) > swipeThreshold) {
+        if (diff > 0) {
+            // Swipe left - next slide
+            presentation.nextSlide();
+        } else {
+            // Swipe right - previous slide
+            presentation.previousSlide();
+        }
+    }
+}
+
+// Initialize presentation
+const presentation = new PresentationController();
+
+// Prevent default touch behaviors
+document.addEventListener('touchmove', (e) => {
+    if (e.touches.length > 1) {
+        e.preventDefault();
+    }
+}, { passive: false });
+
+// Log keyboard shortcuts on load
+console.log('%c🎯 Presentation Controls:', 'color: #2563eb; font-size: 14px; font-weight: bold;');
+console.log('%c→/↓/Space: Next slide', 'color: #64748b; font-size: 12px;');
+console.log('%c←/↑: Previous slide', 'color: #64748b; font-size: 12px;');
+console.log('%cHome: First slide', 'color: #64748b; font-size: 12px;');
+console.log('%cEnd: Last slide', 'color: #64748b; font-size: 12px;');
+console.log('%cSwipe left/right on touch devices', 'color: #64748b; font-size: 12px;');
