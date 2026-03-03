@@ -17,9 +17,6 @@ class PresentationController {
         this.setupParticles();
         this.updateUI();
 
-        // Update slide counter
-        document.querySelector('.total-slides').textContent = this.totalSlides;
-
         // Show particles on first slide
         this.toggleParticles();
     }
@@ -37,13 +34,13 @@ class PresentationController {
                         }
                     },
                     color: {
-                        value: '#0f172a'
+                        value: '#2563eb'
                     },
                     shape: {
                         type: 'circle'
                     },
                     opacity: {
-                        value: 0.5,
+                        value: 0.3,
                         random: false
                     },
                     size: {
@@ -53,8 +50,8 @@ class PresentationController {
                     line_linked: {
                         enable: true,
                         distance: 150,
-                        color: '#1e40af',
-                        opacity: 0.4,
+                        color: '#3b82f6',
+                        opacity: 0.3,
                         width: 1.5
                     },
                     move: {
@@ -152,26 +149,29 @@ class PresentationController {
 
     setupFullscreen() {
         const fullscreenBtn = document.querySelector('.fullscreen-btn');
+        const presentationFrame = document.querySelector('.presentation-frame');
 
-        fullscreenBtn.addEventListener('click', () => {
-            if (!document.fullscreenElement) {
-                document.documentElement.requestFullscreen().catch(err => {
-                    console.log('Fullscreen error:', err);
-                });
-            } else {
-                document.exitFullscreen();
-            }
-        });
+        if (fullscreenBtn && presentationFrame) {
+            fullscreenBtn.addEventListener('click', () => {
+                if (!document.fullscreenElement) {
+                    presentationFrame.requestFullscreen().catch(err => {
+                        console.log('Fullscreen error:', err);
+                    });
+                } else {
+                    document.exitFullscreen();
+                }
+            });
 
-        // Update button on fullscreen change
-        document.addEventListener('fullscreenchange', () => {
-            const svg = fullscreenBtn.querySelector('svg');
-            if (document.fullscreenElement) {
-                svg.innerHTML = '<path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3"/>';
-            } else {
-                svg.innerHTML = '<path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/>';
-            }
-        });
+            // Update button on fullscreen change
+            document.addEventListener('fullscreenchange', () => {
+                const svg = fullscreenBtn.querySelector('svg');
+                if (document.fullscreenElement) {
+                    svg.innerHTML = '<path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3"/>';
+                } else {
+                    svg.innerHTML = '<path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/>';
+                }
+            });
+        }
     }
 
     nextSlide() {
@@ -219,13 +219,6 @@ class PresentationController {
     }
 
     updateUI() {
-        // Update slide counter
-        document.querySelector('.current-slide').textContent = this.currentSlide;
-
-        // Update progress bar
-        const progress = (this.currentSlide / this.totalSlides) * 100;
-        document.querySelector('.progress-fill').style.width = `${progress}%`;
-
         // Update indicators
         this.indicators.forEach((indicator, index) => {
             if (index === this.currentSlide - 1) {
@@ -247,7 +240,23 @@ class PresentationController {
         const currentSlideElement = this.slides[this.currentSlide - 1];
         const slideBody = currentSlideElement.querySelector('.slide-body');
 
-        // Reset animation
+        // Handle different slide structures
+        if (!slideBody) {
+            // For slides without .slide-body (like hero slide or title slide)
+            const heroContainer = currentSlideElement.querySelector('.hero-slide-container');
+            const titleLayout = currentSlideElement.querySelector('.title-split-layout');
+            const animateElement = heroContainer || titleLayout;
+
+            if (animateElement) {
+                animateElement.style.animation = 'none';
+                setTimeout(() => {
+                    animateElement.style.animation = '';
+                }, 10);
+            }
+            return;
+        }
+
+        // Reset animation for standard slides
         slideBody.style.animation = 'none';
         setTimeout(() => {
             slideBody.style.animation = '';

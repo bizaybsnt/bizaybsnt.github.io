@@ -17,27 +17,111 @@
 }
 
 body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-family: 'Noto Sans JP', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     line-height: 1.6;
     color: var(--text-color);
-    background: #ffffff;
+    background: #1a1a2e;
     overflow: hidden;
     position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+/* Presentation Frame Container */
+.presentation-frame {
+    width: 100%;
+    height: 100vh;
+    max-width: 1920px;
+    max-height: 1080px;
+    position: relative;
+    background: #ffffff;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+/* Only show frame on screens larger than HD */
+@media (min-width: 1921px) or (min-height: 1081px) {
+    .presentation-frame {
+        border-radius: 8px;
+    }
+}
+
+/* For smaller screens, use full viewport */
+@media (max-width: 1920px) and (max-height: 1080px) {
+    .presentation-frame {
+        max-width: 100%;
+        max-height: 100%;
+        box-shadow: none;
+    }
+
+    body {
+        background: #ffffff;
+    }
+}
+
+/* Fullscreen mode */
+.presentation-frame:fullscreen {
+    max-width: 100%;
+    max-height: 100%;
+    width: 100vw;
+    height: 100vh;
+    border-radius: 0;
+}
+
+.presentation-frame:-webkit-full-screen {
+    max-width: 100%;
+    max-height: 100%;
+    width: 100vw;
+    height: 100vh;
+    border-radius: 0;
+}
+
+.presentation-frame:-moz-full-screen {
+    max-width: 100%;
+    max-height: 100%;
+    width: 100vw;
+    height: 100vh;
+    border-radius: 0;
+}
+
+.presentation-frame:-ms-fullscreen {
+    max-width: 100%;
+    max-height: 100%;
+    width: 100vw;
+    height: 100vh;
+    border-radius: 0;
 }
 
 #particles-js {
-    position: fixed;
+    position: absolute;
     width: 100%;
     height: 100%;
     top: 0;
     left: 0;
-    z-index: 0;
+    z-index: 1;
     opacity: 0;
     transition: opacity 0.5s ease;
+    pointer-events: none;
 }
 
 #particles-js.active {
     opacity: 0.7;
+}
+
+/* Japanese Pattern Overlay */
+.japanese-pattern-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="50"><path d="M0 50 Q 25 25, 50 50 T 100 50" fill="none" stroke="rgba(37, 99, 235, 0.08)" stroke-width="1.5"/><path d="M0 50 Q 25 35, 50 50 T 100 50" fill="none" stroke="rgba(37, 99, 235, 0.06)" stroke-width="1"/><path d="M-25 50 Q 0 25, 25 50 T 75 50" fill="none" stroke="rgba(37, 99, 235, 0.08)" stroke-width="1.5"/><path d="M-25 50 Q 0 35, 25 50 T 75 50" fill="none" stroke="rgba(37, 99, 235, 0.06)" stroke-width="1"/><path d="M25 50 Q 50 25, 75 50 T 125 50" fill="none" stroke="rgba(37, 99, 235, 0.08)" stroke-width="1.5"/><path d="M25 50 Q 50 35, 75 50 T 125 50" fill="none" stroke="rgba(37, 99, 235, 0.06)" stroke-width="1"/></svg>');
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.4;
 }
 
 /* Navigation */
@@ -52,51 +136,29 @@ body {
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
     z-index: 1000;
     display: flex;
-    justify-content: space-between;
     align-items: center;
     padding: 0 40px;
 }
 
-.nav-left .logo {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--primary-color);
-}
-
-.nav-center {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-}
-
-.slide-counter {
-    font-size: 1rem;
-    color: var(--text-light);
-    font-weight: 500;
-}
-
-.current-slide {
-    color: var(--primary-color);
-    font-weight: 700;
-    font-size: 1.2rem;
-}
-
-.nav-right {
-    display: flex;
-    gap: 16px;
-}
-
+/* Fullscreen Button */
 .fullscreen-btn {
-    background: none;
-    border: none;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border: 2px solid var(--border-color);
+    border-radius: 50%;
     color: var(--text-light);
     cursor: pointer;
-    padding: 8px;
-    border-radius: 6px;
     transition: all 0.3s ease;
     display: flex;
     align-items: center;
     justify-content: center;
+    z-index: 1000;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .fullscreen-btn svg {
@@ -105,8 +167,11 @@ body {
 }
 
 .fullscreen-btn:hover {
-    background: var(--bg-light);
-    color: var(--primary-color);
+    background: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(37, 99, 235, 0.3);
 }
 
 /* Progress Bar */
@@ -130,18 +195,19 @@ body {
 /* Slides Container */
 .slides-container {
     position: relative;
-    height: 100vh;
-    padding-top: 74px;
+    min-height: 100%;
+    height: 100%;
+    width: 100%;
 }
 
 .slide {
     position: absolute;
-    top: 74px;
+    top: 0;
     left: 0;
     right: 0;
     bottom: 0;
     width: 100%;
-    height: calc(100vh - 74px);
+    height: 100%;
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.5s ease, transform 0.5s ease;
@@ -150,6 +216,8 @@ body {
     align-items: center;
     justify-content: center;
     padding: 40px;
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+    overflow: hidden;
 }
 
 .slide.active {
@@ -165,11 +233,14 @@ body {
 .slide-content {
     max-width: 1000px;
     width: 100%;
+    max-height: 100%;
+    overflow: hidden;
 }
 
 .slide-header {
     text-align: center;
-    margin-bottom: 60px;
+    margin-bottom: 40px;
+    flex-shrink: 0;
 }
 
 .slide-title {
@@ -178,12 +249,15 @@ body {
     color: var(--secondary-color);
     margin-bottom: 16px;
     line-height: 1.2;
+    letter-spacing: -0.02em;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 .slide-subtitle {
     font-size: 1.5rem;
     color: var(--text-light);
     font-weight: 500;
+    letter-spacing: 0.02em;
 }
 
 .slide-body {
@@ -201,22 +275,117 @@ body {
     }
 }
 
-/* Slide 1 - Hero Section */
-.slide-hero {
-    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+/* Slide 1 - Title Slide */
+.slide-title-page {
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%) !important;
     padding: 0 !important;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+}
+
+.title-split-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+    height: 100%;
+    max-width: 1600px;
+    gap: 0;
+    animation: slideIn 0.6s ease 0.2s both;
+}
+
+.title-image-side {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px;
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.05) 0%, rgba(59, 130, 246, 0.08) 100%);
+}
+
+.title-image-container {
+    width: 100%;
+    height: 100%;
+    max-width: 600px;
+    max-height: 600px;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+    border: 4px solid white;
+    position: relative;
+}
+
+.title-image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.title-content-side {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 80px 60px;
+    text-align: left;
+}
+
+.title-content-side .presentation-title {
+    font-size: 3.5rem;
+    font-weight: 800;
+    color: var(--secondary-color);
+    line-height: 1.2;
+    margin-bottom: 24px;
+    letter-spacing: -0.02em;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.title-content-side .presentation-subtitle {
+    font-size: 2rem;
+    color: var(--text-light);
+    font-weight: 600;
+    margin-bottom: 60px;
+    letter-spacing: 0.01em;
+}
+
+.title-content-side .presenter-info {
+    margin-top: 60px;
+    padding-top: 40px;
+    border-top: 2px solid var(--border-color);
+    width: 100%;
+}
+
+.title-content-side .presenter-name {
+    font-size: 1.5rem;
+    color: var(--primary-color);
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.title-content-side .presenter-role {
+    font-size: 1.2rem;
+    color: var(--text-light);
+    font-weight: 500;
+}
+
+/* Slide 2 - Hero Section */
+.slide-hero {
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%) !important;
 }
 
 .hero-slide-container {
     max-width: 1200px;
     width: 100%;
-    margin: 0 auto;
-    padding: 0 40px;
+    padding: 40px;
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 60px;
     align-items: center;
-    min-height: calc(100vh - 74px);
+    position: relative;
+    z-index: 2;
+    animation: slideIn 0.6s ease 0.2s both;
 }
 
 .hero-content-wrapper {
@@ -248,6 +417,7 @@ body {
     color: var(--primary-color);
     font-weight: 500;
     margin-bottom: 8px;
+    letter-spacing: 0.05em;
 }
 
 .name {
@@ -257,12 +427,22 @@ body {
     margin-bottom: 8px;
     line-height: 1.1;
     white-space: nowrap;
+    letter-spacing: -0.02em;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 .title {
     font-size: 1.8rem;
     font-weight: 700;
     color: var(--text-light);
+    margin-bottom: 8px;
+    letter-spacing: 0.01em;
+}
+
+.company {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--primary-color);
     margin-bottom: 0;
 }
 
@@ -420,125 +600,810 @@ body {
     margin: 0 auto;
 }
 
-/* Slide 2 - Two Column */
-.two-column {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 60px;
+/* Slide 3 - Journey Section */
+.slide-journey {
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%) !important;
 }
 
-.column h3 {
-    font-size: 1.8rem;
-    color: var(--secondary-color);
-    margin-bottom: 24px;
+.journey-content {
+    max-width: 1400px;
+    width: 100%;
+}
+
+.journey-steps {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 10px;
+    flex-wrap: nowrap;
+}
+
+.step-card {
+    background: white;
+    border-radius: 16px;
+    padding: 20px 16px;
+    flex: 1;
+    min-width: 0;
+    max-width: 220px;
+    min-height: 240px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+    transition: all 0.3s ease;
+    position: relative;
+    border: 2px solid #e2e8f0;
+}
+
+.step-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+}
+
+.step-card.highlight {
+    background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+    border-color: #ef4444;
+}
+
+.step-card.active {
+    background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+    border-color: var(--primary-color);
+    box-shadow: 0 8px 30px rgba(37, 99, 235, 0.2);
+}
+
+.step-icon {
+    font-size: 2.2rem;
+    text-align: center;
+    margin: 6px 0 10px;
+}
+
+.step-title {
+    font-size: 1rem;
+    color: #0f172a;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 14px;
+}
+
+.step-details {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: auto;
+}
+
+.step-details-horizontal {
+    display: flex;
+    gap: 12px;
+    margin-top: auto;
+    justify-content: center;
+}
+
+.step-details-horizontal .detail-row {
+    flex: 1;
+}
+
+.wide-card {
+    flex: 2;
+    max-width: 450px;
+}
+
+.detail-row {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 10px;
+    background: #f8fafc;
+    border-radius: 8px;
+    border-left: 3px solid var(--primary-color);
+}
+
+.step-card:not(.active) .detail-row {
+    border-left-color: #cbd5e1;
+}
+
+.detail-period {
+    font-size: 0.75rem;
+    color: #64748b;
+    font-weight: 600;
+}
+
+.detail-role {
+    font-size: 0.88rem;
+    color: #0f172a;
     font-weight: 700;
 }
 
-.styled-list {
-    list-style: none;
+.detail-company {
+    font-size: 0.8rem;
+    color: var(--primary-color);
+    font-weight: 500;
 }
 
-.styled-list li {
-    font-size: 1.1rem;
-    color: var(--text-light);
+.current-tag {
+    display: inline-block;
+    background: var(--primary-color);
+    color: white;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    margin-top: 8px;
+    letter-spacing: 0.5px;
+}
+
+.step-year {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #ef4444;
+    margin-top: auto;
+}
+
+.step-arrow {
+    font-size: 1.5rem;
+    color: #cbd5e1;
+    font-weight: 300;
+    flex-shrink: 0;
+}
+
+/* Slide 4 - Tech Hiring Section */
+.slide-tech-hiring {
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%) !important;
+}
+
+.tech-insights {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    max-width: 1300px;
+    margin: 0 auto;
+}
+
+.insight-card {
+    background: white;
+    border-radius: 16px;
+    padding: 28px 24px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    border: 2px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    min-height: 320px;
+    height: auto;
+}
+
+.insight-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+}
+
+.insight-card.highlight-card {
+    background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+    border-color: var(--primary-color);
+    box-shadow: 0 8px 24px rgba(37, 99, 235, 0.15);
+}
+
+.insight-icon {
+    font-size: 3rem;
+    text-align: center;
     margin-bottom: 16px;
-    padding-left: 32px;
+}
+
+.insight-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--secondary-color);
+    margin-bottom: 20px;
+    text-align: center;
+    line-height: 1.3;
+}
+
+.insight-content {
+    flex: 1;
+}
+
+.insight-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.insight-list li {
+    font-size: 0.95rem;
+    color: var(--text-color);
+    line-height: 1.7;
+    margin-bottom: 14px;
+    padding-left: 28px;
     position: relative;
 }
 
-.styled-list li::before {
-    content: "→";
+.insight-list li:before {
+    content: "✓";
     position: absolute;
     left: 0;
     color: var(--primary-color);
     font-weight: 700;
+    font-size: 1.1rem;
+}
+
+.insight-list li:last-child {
+    margin-bottom: 0;
+}
+
+/* Slide 5 - AI Adoption Comparison */
+.slide-ai-comparison {
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%) !important;
+}
+
+.slide-ai-comparison .slide-header {
+    margin-bottom: 25px;
+}
+
+.slide-ai-comparison .slide-title {
+    font-size: 2.8rem;
+    margin-bottom: 10px;
+}
+
+.slide-ai-comparison .slide-subtitle {
     font-size: 1.3rem;
 }
 
-/* Slide 3 - Skills */
-.skills-showcase {
+.comparison-container {
+    display: flex;
+    gap: 24px;
+    max-width: 1400px;
+    margin: 0 auto;
+    align-items: stretch;
+    position: relative;
+}
+
+.comparison-side {
+    flex: 1;
+    background: white;
+    border-radius: 16px;
+    padding: 20px 18px;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
+    border: 2px solid var(--border-color);
     display: flex;
     flex-direction: column;
-    gap: 40px;
+    overflow: hidden;
 }
 
-.skill-group h4 {
-    font-size: 1.4rem;
-    color: var(--secondary-color);
-    margin-bottom: 16px;
-    font-weight: 700;
+.western-side {
+    border-top: 4px solid #10b981;
 }
 
-.tag-group {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
+.japanese-side {
+    border-top: 4px solid #ef4444;
 }
 
-.tag {
-    background: white;
-    color: var(--text-color);
-    padding: 12px 24px;
-    border-radius: 8px;
-    font-size: 1rem;
-    font-weight: 600;
-    border: 2px solid var(--border-color);
-    transition: all 0.3s ease;
-}
-
-.tag:hover {
-    border-color: var(--primary-color);
-    color: var(--primary-color);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
-}
-
-/* Slide 4 - Projects */
-.project-cards {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 32px;
-}
-
-.project-card {
-    background: white;
-    border: 2px solid var(--border-color);
-    border-radius: 16px;
-    padding: 32px;
+.comparison-header {
     text-align: center;
+    margin-bottom: 18px;
+    padding-bottom: 14px;
+    border-bottom: 2px solid var(--border-color);
+    flex-shrink: 0;
+}
+
+.comparison-flag {
+    font-size: 2.5rem;
+    margin-bottom: 8px;
+}
+
+.comparison-title {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: var(--secondary-color);
+    margin-bottom: 6px;
+    letter-spacing: -0.01em;
+}
+
+.comparison-tagline {
+    font-size: 0.85rem;
+    color: var(--text-light);
+    font-style: italic;
+    font-weight: 500;
+}
+
+.comparison-timeline {
+    flex: 1;
+    margin-bottom: 16px;
+    overflow: hidden;
+}
+
+.timeline-item {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 16px;
+    align-items: flex-start;
+}
+
+.timeline-item:last-child {
+    margin-bottom: 0;
+}
+
+.timeline-marker {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--primary-color);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+}
+
+.western-side .timeline-marker {
+    background: #10b981;
+}
+
+.japanese-side .timeline-marker {
+    background: #ef4444;
+}
+
+.timeline-content h4 {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--secondary-color);
+    margin-bottom: 3px;
+    line-height: 1.2;
+}
+
+.timeline-content p {
+    font-size: 0.8rem;
+    color: var(--text-light);
+    line-height: 1.4;
+}
+
+.approach-characteristics {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding-top: 16px;
+    border-top: 2px solid var(--border-color);
+    flex-shrink: 0;
+}
+
+.characteristic {
+    font-size: 0.82rem;
+    color: var(--text-color);
+    font-weight: 600;
+    padding: 8px 12px;
+    background: var(--bg-light);
+    border-radius: 6px;
+    border-left: 3px solid var(--primary-color);
+}
+
+.western-side .characteristic {
+    border-left-color: #10b981;
+}
+
+.japanese-side .characteristic {
+    border-left-color: #ef4444;
+}
+
+.vs-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.vs-divider::before {
+    content: '';
+    position: absolute;
+    width: 2px;
+    height: 100%;
+    background: linear-gradient(180deg, transparent 0%, var(--border-color) 20%, var(--border-color) 80%, transparent 100%);
+}
+
+.vs-text {
+    background: var(--primary-color);
+    color: white;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 1.2rem;
+    z-index: 1;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+    letter-spacing: 0.05em;
+}
+
+/* Slide 6 - Challenges & Requirements */
+.slide-challenges {
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%) !important;
+}
+
+.challenges-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.challenges-column {
+    background: white;
+    border-radius: 20px;
+    padding: 0;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
+    border: 2px solid var(--border-color);
+    overflow: hidden;
+}
+
+.column-header {
+    padding: 24px 28px;
+    text-align: center;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.challenge-header {
+    background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+    border-bottom-color: #fecaca;
+}
+
+.requirement-header {
+    background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+    border-bottom-color: #bbf7d0;
+}
+
+.column-icon {
+    font-size: 3rem;
+    margin-bottom: 12px;
+}
+
+.column-header h3 {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--secondary-color);
+    margin: 0;
+    letter-spacing: -0.01em;
+}
+
+.challenges-list {
+    padding: 28px;
+}
+
+.challenge-item,
+.requirement-item {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 24px;
+    align-items: flex-start;
+}
+
+.challenge-item:last-child,
+.requirement-item:last-child {
+    margin-bottom: 0;
+}
+
+.item-number {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #ef4444;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.95rem;
+    flex-shrink: 0;
+}
+
+.item-icon {
+    font-size: 2rem;
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.item-content h4 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--secondary-color);
+    margin-bottom: 4px;
+    line-height: 1.3;
+}
+
+.item-content p {
+    font-size: 0.88rem;
+    color: var(--text-light);
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* Slide 7 - Community & Networking */
+.slide-community {
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%) !important;
+    padding: 30px;
+}
+
+.slide-community .slide-header {
+    margin-bottom: 18px;
+}
+
+.slide-community .slide-title {
+    font-size: 2.4rem;
+    margin-bottom: 8px;
+}
+
+.slide-community .slide-subtitle {
+    font-size: 1.1rem;
+}
+
+.community-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.community-section {
+    background: white;
+    border-radius: 16px;
+    padding: 0;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
+    border: 2px solid var(--border-color);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    max-height: 100%;
+}
+
+.highlight-section {
+    background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+    border-color: var(--primary-color);
+}
+
+.community-header {
+    padding: 14px 20px;
+    text-align: center;
+    border-bottom: 2px solid var(--border-color);
+    background: white;
+    flex-shrink: 0;
+}
+
+.highlight-section .community-header {
+    background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+}
+
+.community-icon {
+    font-size: 2rem;
+    margin-bottom: 6px;
+}
+
+.community-header h3 {
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: var(--secondary-color);
+    margin: 0;
+    letter-spacing: -0.01em;
+}
+
+.community-points {
+    padding: 16px;
+    flex: 1;
+    overflow: hidden;
+}
+
+.point-item {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 12px;
+    align-items: flex-start;
+}
+
+.point-item:last-child {
+    margin-bottom: 0;
+}
+
+.point-icon {
+    font-size: 1.5rem;
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.point-text h4 {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--secondary-color);
+    margin-bottom: 2px;
+    line-height: 1.2;
+}
+
+.point-text p {
+    font-size: 0.72rem;
+    color: var(--text-light);
+    line-height: 1.3;
+    margin: 0;
+}
+
+.involvement-cards {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex: 1;
+    overflow: hidden;
+}
+
+.involvement-card {
+    background: white;
+    border-radius: 10px;
+    padding: 12px;
+    border: 2px solid var(--primary-color);
+    box-shadow: 0 4px 16px rgba(37, 99, 235, 0.1);
+}
+
+.card-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.card-logo {
+    font-size: 3rem;
+    flex-shrink: 0;
+}
+
+.card-info {
+    flex: 1;
+}
+
+.card-info h4 {
+    font-size: 0.9rem;
+    font-weight: 800;
+    color: var(--secondary-color);
+    margin-bottom: 0;
+    line-height: 1.15;
+}
+
+.role-badge {
+    display: inline-block;
+    background: var(--primary-color);
+    color: white;
+    padding: 2px 6px;
+    border-radius: 20px;
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+}
+
+.card-description p {
+    font-size: 0.7rem;
+    color: var(--text-light);
+    line-height: 1.25;
+    margin-bottom: 5px;
+}
+
+.card-features {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.card-features li {
+    font-size: 0.65rem;
+    color: var(--text-color);
+    padding-left: 16px;
+    position: relative;
+    margin-bottom: 3px;
+    line-height: 1.2;
+}
+
+.card-features li:before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: var(--primary-color);
+    font-weight: 700;
+    font-size: 0.75rem;
+}
+
+.card-features li:last-child {
+    margin-bottom: 0;
+}
+
+.card-link,
+.card-links {
+    margin-top: 6px;
+    padding-top: 6px;
+    border-top: 2px solid var(--border-color);
+}
+
+.card-links {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+}
+
+.card-link a,
+.card-links a {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    color: var(--primary-color);
+    text-decoration: none;
+    font-size: 0.68rem;
+    font-weight: 700;
+    padding: 4px 7px;
+    border-radius: 5px;
+    background: rgba(37, 99, 235, 0.05);
     transition: all 0.3s ease;
 }
 
-.project-card:hover {
-    border-color: var(--primary-color);
-    transform: translateY(-8px);
-    box-shadow: 0 12px 40px rgba(37, 99, 235, 0.15);
+.card-link a:hover,
+.card-links a:hover {
+    background: var(--primary-color);
+    color: white;
+    transform: translateX(4px);
 }
 
-.project-icon {
-    font-size: 3rem;
-    margin-bottom: 20px;
+.cta-section {
+    padding: 14px 20px;
+    text-align: center;
+    background: white;
+    border-radius: 10px;
+    margin: 16px auto 0 auto;
+    max-width: 1400px;
+    border: 2px dashed var(--primary-color);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
 }
 
-.project-card h3 {
-    font-size: 1.4rem;
+.cta-icon {
+    font-size: 1.6rem;
+    margin-bottom: 6px;
+}
+
+.cta-title {
+    font-size: 0.95rem;
+    font-weight: 800;
     color: var(--secondary-color);
-    margin-bottom: 12px;
-    font-weight: 700;
+    margin-bottom: 4px;
+    line-height: 1.2;
 }
 
-.project-card p {
-    font-size: 1rem;
+.cta-text {
+    font-size: 0.75rem;
     color: var(--text-light);
-    line-height: 1.6;
+    line-height: 1.3;
+    margin: 0;
+    max-width: 500px;
+    margin: 0 auto;
 }
 
-/* Slide 5 - Final Contact */
+/* Slide 8 - Final Contact */
 .final-contact {
     text-align: center;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+    gap: 32px;
 }
 
 .final-qr-container {
@@ -572,7 +1437,7 @@ body {
 
 /* Navigation Buttons */
 .nav-button {
-    position: fixed;
+    position: absolute;
     top: 50%;
     transform: translateY(-50%);
     width: 60px;
@@ -622,7 +1487,7 @@ body {
 
 /* Slide Indicators */
 .slide-indicators {
-    position: fixed;
+    position: absolute;
     bottom: 40px;
     left: 50%;
     transform: translateX(-50%);
@@ -655,10 +1520,40 @@ body {
 
 /* Responsive Design */
 @media (max-width: 1024px) {
+    .presentation-frame {
+        max-width: 100%;
+        max-height: 100%;
+        box-shadow: none;
+        border-radius: 0;
+    }
+
+    body {
+        background: #ffffff;
+    }
+
+    .slide {
+        padding: 25px 15px;
+        padding-top: 30px;
+        padding-bottom: 60px;
+    }
+
+    .slide-header {
+        margin-bottom: 25px;
+    }
+
+    .slide-title {
+        font-size: 2.5rem;
+        margin-bottom: 10px;
+    }
+
+    .slide-subtitle {
+        font-size: 1.2rem;
+    }
+
     .hero-slide-container {
         grid-template-columns: 1fr;
-        gap: 40px;
-        padding: 40px 20px;
+        gap: 25px;
+        padding: 20px 15px;
     }
 
     .hero-visual {
@@ -672,6 +1567,344 @@ body {
     .title {
         font-size: 1.5rem;
     }
+
+    .journey-steps {
+        gap: 10px;
+        padding: 10px 5px;
+    }
+
+    .step-card {
+        max-width: 160px;
+        min-height: 180px;
+        height: auto;
+        padding: 12px 8px;
+    }
+
+    .step-icon {
+        font-size: 1.6rem;
+        margin: 4px 0 6px;
+    }
+
+    .step-title {
+        font-size: 0.8rem;
+        margin-bottom: 10px;
+    }
+
+    .detail-row {
+        padding: 6px;
+        gap: 3px;
+    }
+
+    .detail-role {
+        font-size: 0.7rem;
+    }
+
+    .detail-company {
+        font-size: 0.65rem;
+    }
+
+    .detail-period {
+        font-size: 0.6rem;
+    }
+
+    .current-tag {
+        font-size: 0.6rem;
+        padding: 3px 6px;
+    }
+
+    .step-year {
+        font-size: 1.5rem;
+    }
+
+    .tech-insights {
+        grid-template-columns: 1fr;
+        gap: 15px;
+        padding: 0 15px;
+    }
+
+    .insight-card {
+        min-height: auto;
+        padding: 20px 16px;
+    }
+
+    .insight-icon {
+        font-size: 2.2rem;
+        margin-bottom: 10px;
+    }
+
+    .insight-title {
+        font-size: 1.1rem;
+        margin-bottom: 15px;
+    }
+
+    .insight-list li {
+        font-size: 0.85rem;
+        margin-bottom: 10px;
+    }
+
+    .slide-ai-comparison .slide-title {
+        font-size: 2.2rem;
+    }
+
+    .slide-ai-comparison .slide-subtitle {
+        font-size: 1.1rem;
+    }
+
+    .slide-ai-comparison .slide-header {
+        margin-bottom: 20px;
+    }
+
+    .comparison-container {
+        gap: 16px;
+        padding: 0 15px;
+    }
+
+    .comparison-side {
+        padding: 16px 14px;
+    }
+
+    .comparison-header {
+        margin-bottom: 14px;
+        padding-bottom: 12px;
+    }
+
+    .comparison-flag {
+        font-size: 1.8rem;
+        margin-bottom: 6px;
+    }
+
+    .comparison-title {
+        font-size: 1.05rem;
+        margin-bottom: 4px;
+    }
+
+    .comparison-tagline {
+        font-size: 0.75rem;
+    }
+
+    .timeline-item {
+        margin-bottom: 12px;
+        gap: 10px;
+    }
+
+    .timeline-marker {
+        width: 28px;
+        height: 28px;
+        font-size: 0.8rem;
+    }
+
+    .timeline-content h4 {
+        font-size: 0.82rem;
+        margin-bottom: 2px;
+    }
+
+    .timeline-content p {
+        font-size: 0.72rem;
+    }
+
+    .vs-text {
+        width: 42px;
+        height: 42px;
+        font-size: 1.05rem;
+    }
+
+    .characteristic {
+        font-size: 0.72rem;
+        padding: 6px 8px;
+    }
+
+    .approach-characteristics {
+        gap: 6px;
+        padding-top: 12px;
+    }
+
+    .comparison-timeline {
+        margin-bottom: 12px;
+    }
+
+    .challenges-grid {
+        gap: 20px;
+        padding: 0 15px;
+    }
+
+    .column-header {
+        padding: 16px 20px;
+    }
+
+    .column-icon {
+        font-size: 2.2rem;
+        margin-bottom: 8px;
+    }
+
+    .column-header h3 {
+        font-size: 1.2rem;
+    }
+
+    .challenges-list {
+        padding: 18px;
+    }
+
+    .challenge-item,
+    .requirement-item {
+        margin-bottom: 16px;
+        gap: 12px;
+    }
+
+    .item-number,
+    .item-icon {
+        width: 30px;
+        height: 30px;
+    }
+
+    .item-number {
+        font-size: 0.85rem;
+    }
+
+    .item-icon {
+        font-size: 1.6rem;
+    }
+
+    .item-content h4 {
+        font-size: 0.9rem;
+    }
+
+    .item-content p {
+        font-size: 0.8rem;
+    }
+
+    .slide-community {
+        padding: 20px 15px;
+        padding-top: 25px;
+        padding-bottom: 55px;
+    }
+
+    .slide-community .slide-title {
+        font-size: 1.7rem;
+    }
+
+    .slide-community .slide-subtitle {
+        font-size: 0.9rem;
+    }
+
+    .slide-community .slide-header {
+        margin-bottom: 12px;
+    }
+
+    .community-content {
+        gap: 12px;
+        padding: 0 12px;
+    }
+
+    .community-header {
+        padding: 10px 12px;
+    }
+
+    .community-icon {
+        font-size: 1.6rem;
+        margin-bottom: 4px;
+    }
+
+    .community-header h3 {
+        font-size: 0.9rem;
+    }
+
+    .community-points {
+        padding: 10px;
+    }
+
+    .point-item {
+        margin-bottom: 8px;
+        gap: 8px;
+    }
+
+    .point-icon {
+        font-size: 1.2rem;
+        width: 24px;
+        height: 24px;
+    }
+
+    .point-text h4 {
+        font-size: 0.72rem;
+    }
+
+    .point-text p {
+        font-size: 0.62rem;
+    }
+
+    .involvement-cards {
+        padding: 10px;
+        gap: 6px;
+    }
+
+    .involvement-card {
+        padding: 8px;
+    }
+
+    .card-header {
+        margin-bottom: 5px;
+        padding-bottom: 5px;
+        gap: 6px;
+    }
+
+    .card-logo {
+        font-size: 1.6rem;
+    }
+
+    .card-info h4 {
+        font-size: 0.72rem;
+    }
+
+    .role-badge {
+        font-size: 0.45rem;
+        padding: 2px 4px;
+    }
+
+    .card-description p {
+        font-size: 0.58rem;
+        margin-bottom: 3px;
+    }
+
+    .card-features li {
+        font-size: 0.54rem;
+        margin-bottom: 2px;
+        padding-left: 12px;
+    }
+
+    .card-features li:before {
+        font-size: 0.6rem;
+    }
+
+    .card-link,
+    .card-links {
+        margin-top: 3px;
+        padding-top: 3px;
+    }
+
+    .card-link a,
+    .card-links a {
+        font-size: 0.54rem;
+        padding: 2px 4px;
+    }
+
+    .cta-section {
+        padding: 10px 12px;
+        margin: 12px 12px 0 12px;
+    }
+
+    .cta-icon {
+        font-size: 1.3rem;
+        margin-bottom: 4px;
+    }
+
+    .cta-title {
+        font-size: 0.8rem;
+        margin-bottom: 3px;
+    }
+
+    .cta-text {
+        font-size: 0.6rem;
+    }
+
 }
 
 @media (max-width: 768px) {
@@ -680,19 +1913,28 @@ body {
     }
 
     .slide {
-        padding: 20px;
+        padding: 15px 12px;
+        padding-top: 25px;
+        padding-bottom: 50px;
+        align-items: center;
+    }
+
+    .slide-header {
+        margin-bottom: 20px;
     }
 
     .slide-title {
-        font-size: 2.5rem;
+        font-size: 1.8rem;
+        margin-bottom: 8px;
     }
 
     .slide-subtitle {
-        font-size: 1.2rem;
+        font-size: 1rem;
     }
 
     .hero-slide-container {
-        padding: 20px;
+        padding: 15px 10px;
+        gap: 20px;
     }
 
     .hero-content-wrapper {
@@ -712,6 +1954,10 @@ body {
 
     .title {
         font-size: 1.4rem;
+    }
+
+    .company {
+        font-size: 1rem;
     }
 
     .description {
@@ -759,16 +2005,6 @@ body {
         height: 120px;
     }
 
-    .two-column {
-        grid-template-columns: 1fr;
-        gap: 40px;
-    }
-
-    .project-cards {
-        grid-template-columns: 1fr;
-        gap: 24px;
-    }
-
     .nav-button {
         width: 50px;
         height: 50px;
@@ -780,6 +2016,369 @@ body {
 
     .next-button {
         right: 20px;
+    }
+
+    .fullscreen-btn {
+        top: 15px;
+        right: 15px;
+        width: 45px;
+        height: 45px;
+    }
+
+    .fullscreen-btn svg {
+        width: 20px;
+        height: 20px;
+    }
+
+    .tech-insights {
+        grid-template-columns: 1fr;
+        gap: 12px;
+        padding: 0 12px;
+    }
+
+    .insight-card {
+        min-height: auto;
+        padding: 16px 14px;
+    }
+
+    .insight-icon {
+        font-size: 2rem;
+        margin-bottom: 8px;
+    }
+
+    .insight-title {
+        font-size: 1rem;
+        margin-bottom: 12px;
+    }
+
+    .insight-list li {
+        font-size: 0.8rem;
+        margin-bottom: 8px;
+        padding-left: 22px;
+    }
+
+    .slide-ai-comparison .slide-title {
+        font-size: 1.6rem;
+    }
+
+    .slide-ai-comparison .slide-subtitle {
+        font-size: 0.9rem;
+    }
+
+    .slide-ai-comparison .slide-header {
+        margin-bottom: 15px;
+    }
+
+    .comparison-container {
+        flex-direction: column;
+        gap: 10px;
+        padding: 0 12px;
+    }
+
+    .comparison-side {
+        padding: 14px 12px;
+    }
+
+    .comparison-header {
+        margin-bottom: 12px;
+        padding-bottom: 10px;
+    }
+
+    .comparison-flag {
+        font-size: 1.8rem;
+        margin-bottom: 4px;
+    }
+
+    .comparison-title {
+        font-size: 0.95rem;
+        margin-bottom: 3px;
+    }
+
+    .comparison-tagline {
+        font-size: 0.7rem;
+    }
+
+    .timeline-item {
+        gap: 8px;
+        margin-bottom: 10px;
+    }
+
+    .timeline-marker {
+        width: 26px;
+        height: 26px;
+        font-size: 0.75rem;
+    }
+
+    .timeline-content h4 {
+        font-size: 0.78rem;
+        margin-bottom: 2px;
+    }
+
+    .timeline-content p {
+        font-size: 0.68rem;
+    }
+
+    .vs-divider {
+        flex-direction: row;
+        height: auto;
+        margin: 6px 0;
+    }
+
+    .vs-divider::before {
+        width: 100%;
+        height: 2px;
+    }
+
+    .vs-text {
+        width: 36px;
+        height: 36px;
+        font-size: 0.95rem;
+    }
+
+    .characteristic {
+        font-size: 0.68rem;
+        padding: 5px 7px;
+    }
+
+    .approach-characteristics {
+        gap: 5px;
+        padding-top: 10px;
+    }
+
+    .comparison-timeline {
+        margin-bottom: 10px;
+    }
+
+    .challenges-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+        padding: 0 12px;
+    }
+
+    .column-header {
+        padding: 14px 16px;
+    }
+
+    .column-icon {
+        font-size: 2.2rem;
+        margin-bottom: 6px;
+    }
+
+    .column-header h3 {
+        font-size: 1.15rem;
+    }
+
+    .challenges-list {
+        padding: 16px;
+    }
+
+    .challenge-item,
+    .requirement-item {
+        margin-bottom: 12px;
+        gap: 10px;
+    }
+
+    .item-number,
+    .item-icon {
+        width: 28px;
+        height: 28px;
+    }
+
+    .item-number {
+        font-size: 0.8rem;
+    }
+
+    .item-icon {
+        font-size: 1.5rem;
+    }
+
+    .item-content h4 {
+        font-size: 0.85rem;
+        margin-bottom: 2px;
+    }
+
+    .item-content p {
+        font-size: 0.75rem;
+    }
+
+    .slide-community {
+        padding: 12px 10px;
+        padding-top: 20px;
+        padding-bottom: 45px;
+    }
+
+    .slide-community .slide-title {
+        font-size: 1.35rem;
+    }
+
+    .slide-community .slide-subtitle {
+        font-size: 0.75rem;
+    }
+
+    .slide-community .slide-header {
+        margin-bottom: 10px;
+    }
+
+    .community-content {
+        grid-template-columns: 1fr;
+        gap: 8px;
+        padding: 0 10px;
+    }
+
+    .community-header {
+        padding: 8px 10px;
+    }
+
+    .community-icon {
+        font-size: 1.5rem;
+        margin-bottom: 3px;
+    }
+
+    .community-header h3 {
+        font-size: 0.85rem;
+    }
+
+    .community-points {
+        padding: 8px;
+    }
+
+    .point-item {
+        gap: 6px;
+        margin-bottom: 7px;
+    }
+
+    .point-icon {
+        font-size: 1.1rem;
+        width: 22px;
+        height: 22px;
+    }
+
+    .point-text h4 {
+        font-size: 0.7rem;
+    }
+
+    .point-text p {
+        font-size: 0.58rem;
+    }
+
+    .involvement-cards {
+        padding: 8px;
+        gap: 5px;
+    }
+
+    .involvement-card {
+        padding: 7px;
+    }
+
+    .card-header {
+        gap: 5px;
+        margin-bottom: 4px;
+        padding-bottom: 4px;
+    }
+
+    .card-logo {
+        font-size: 1.5rem;
+    }
+
+    .card-info h4 {
+        font-size: 0.7rem;
+    }
+
+    .role-badge {
+        font-size: 0.4rem;
+        padding: 1px 3px;
+    }
+
+    .card-description p {
+        font-size: 0.55rem;
+        margin-bottom: 3px;
+    }
+
+    .card-features li {
+        font-size: 0.5rem;
+        margin-bottom: 2px;
+        padding-left: 12px;
+    }
+
+    .card-features li:before {
+        font-size: 0.55rem;
+    }
+
+    .card-link,
+    .card-links {
+        margin-top: 3px;
+        padding-top: 3px;
+    }
+
+    .card-link a,
+    .card-links a {
+        font-size: 0.52rem;
+        padding: 2px 4px;
+    }
+
+    .cta-section {
+        padding: 8px 10px;
+        margin: 8px 10px 0 10px;
+    }
+
+    .cta-icon {
+        font-size: 1.2rem;
+        margin-bottom: 3px;
+    }
+
+    .cta-title {
+        font-size: 0.75rem;
+        margin-bottom: 2px;
+    }
+
+    .cta-text {
+        font-size: 0.55rem;
+    }
+
+    .title-split-layout {
+        grid-template-columns: 1fr;
+        min-height: auto;
+        height: auto;
+    }
+
+    .title-image-side {
+        padding: 20px;
+        min-height: 200px;
+    }
+
+    .title-image-container {
+        max-width: 300px;
+        max-height: 300px;
+    }
+
+    .title-content-side {
+        padding: 20px;
+        align-items: center;
+        text-align: center;
+    }
+
+    .title-content-side .presentation-title {
+        font-size: 1.8rem;
+        margin-bottom: 12px;
+    }
+
+    .title-content-side .presentation-subtitle {
+        font-size: 1.1rem;
+        margin-bottom: 30px;
+    }
+
+    .title-content-side .presenter-info {
+        margin-top: 30px;
+        padding-top: 20px;
+    }
+
+    .title-content-side .presenter-name {
+        font-size: 1.1rem;
+        margin-bottom: 6px;
+    }
+
+    .title-content-side .presenter-role {
+        font-size: 0.95rem;
     }
 
     .slide-indicators {
@@ -799,18 +2398,498 @@ body {
         font-size: 1.5rem;
     }
 
-    .tag-group {
-        justify-content: center;
+    .journey-steps {
+        flex-direction: column;
+        gap: 12px;
+        padding: 10px;
+    }
+
+    .step-card {
+        max-width: 100%;
+        width: 100%;
+        min-height: auto;
+        padding: 12px 14px;
+    }
+
+    .wide-card {
+        max-width: 100%;
+    }
+
+    .step-details-horizontal {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .step-arrow {
+        transform: rotate(90deg);
+        font-size: 1.5rem;
+    }
+
+    .step-card:hover {
+        transform: translateY(-2px);
+    }
+
+    .step-icon {
+        font-size: 2rem;
+        margin: 4px 0 6px;
+    }
+
+    .step-title {
+        font-size: 0.95rem;
+        margin-bottom: 10px;
+    }
+
+    .detail-row {
+        padding: 6px;
+        gap: 3px;
+    }
+
+    .detail-role {
+        font-size: 0.75rem;
+    }
+
+    .detail-company {
+        font-size: 0.7rem;
+    }
+
+    .detail-period {
+        font-size: 0.65rem;
+    }
+
+    .step-year {
+        font-size: 2rem;
+    }
+
+    .current-tag {
+        font-size: 0.65rem;
+        padding: 4px 8px;
     }
 }
 
 @media (max-width: 480px) {
+    .slide-ai-comparison .slide-title {
+        font-size: 1.3rem;
+    }
+
+    .slide-ai-comparison .slide-subtitle {
+        font-size: 0.8rem;
+    }
+
+    .slide-ai-comparison .slide-header {
+        margin-bottom: 12px;
+    }
+    .slide-community {
+        padding: 10px 8px;
+        padding-top: 18px;
+        padding-bottom: 42px;
+    }
+
+    .slide-community .slide-title {
+        font-size: 1.1rem;
+    }
+
+    .slide-community .slide-subtitle {
+        font-size: 0.65rem;
+    }
+
+    .slide-community .slide-header {
+        margin-bottom: 8px;
+    }
+
+    .community-content {
+        gap: 6px;
+        padding: 0 8px;
+    }
+
+    .community-header {
+        padding: 6px 8px;
+    }
+
+    .community-icon {
+        font-size: 1.3rem;
+        margin-bottom: 2px;
+    }
+
+    .community-header h3 {
+        font-size: 0.75rem;
+    }
+
+    .community-points {
+        padding: 6px;
+    }
+
+    .point-item {
+        gap: 5px;
+        margin-bottom: 5px;
+    }
+
+    .point-icon {
+        font-size: 1rem;
+        width: 20px;
+        height: 20px;
+    }
+
+    .point-text h4 {
+        font-size: 0.62rem;
+    }
+
+    .point-text p {
+        font-size: 0.5rem;
+    }
+
+    .involvement-cards {
+        padding: 6px;
+        gap: 4px;
+    }
+
+    .involvement-card {
+        padding: 6px;
+    }
+
+    .card-header {
+        gap: 4px;
+        margin-bottom: 3px;
+        padding-bottom: 3px;
+    }
+
+    .card-info h4 {
+        font-size: 0.62rem;
+    }
+
+    .card-description p {
+        font-size: 0.48rem;
+        margin-bottom: 2px;
+    }
+
+    .card-features li {
+        font-size: 0.45rem;
+        margin-bottom: 1px;
+        padding-left: 10px;
+    }
+
+    .card-features li:before {
+        font-size: 0.5rem;
+    }
+
+    .card-link,
+    .card-links {
+        margin-top: 2px;
+        padding-top: 2px;
+    }
+
+    .card-link a,
+    .card-links a {
+        font-size: 0.46rem;
+        padding: 2px 3px;
+    }
+
+    .cta-section {
+        padding: 6px 8px;
+        margin: 6px 8px 0 8px;
+    }
+
+    .cta-icon {
+        font-size: 1rem;
+        margin-bottom: 2px;
+    }
+
+    .cta-title {
+        font-size: 0.65rem;
+        margin-bottom: 2px;
+    }
+
+    .cta-text {
+        font-size: 0.48rem;
+    }
+    .slide {
+        padding: 12px 10px;
+        padding-top: 20px;
+        padding-bottom: 45px;
+    }
+
+    .slide-header {
+        margin-bottom: 15px;
+    }
+
     .slide-title {
-        font-size: 2rem;
+        font-size: 1.5rem;
+        margin-bottom: 6px;
     }
 
     .slide-subtitle {
+        font-size: 0.85rem;
+    }
+
+    .tech-insights {
+        gap: 16px;
+        padding: 0 15px;
+    }
+
+    .insight-card {
+        padding: 20px 16px;
+    }
+
+    .insight-icon {
+        font-size: 2.2rem;
+        margin-bottom: 10px;
+    }
+
+    .insight-title {
+        font-size: 1.05rem;
+        margin-bottom: 14px;
+    }
+
+    .insight-list li {
+        font-size: 0.85rem;
+        margin-bottom: 10px;
+        padding-left: 24px;
+    }
+
+    .insight-list li:before {
         font-size: 1rem;
+    }
+
+    .comparison-container {
+        gap: 8px;
+        padding: 0 10px;
+    }
+
+    .comparison-side {
+        padding: 12px 10px;
+    }
+
+    .comparison-flag {
+        font-size: 1.6rem;
+        margin-bottom: 3px;
+    }
+
+    .comparison-title {
+        font-size: 0.9rem;
+        margin-bottom: 2px;
+    }
+
+    .comparison-tagline {
+        font-size: 0.65rem;
+    }
+
+    .comparison-header {
+        margin-bottom: 10px;
+        padding-bottom: 8px;
+    }
+
+    .timeline-item {
+        gap: 7px;
+        margin-bottom: 8px;
+    }
+
+    .timeline-marker {
+        width: 24px;
+        height: 24px;
+        font-size: 0.7rem;
+    }
+
+    .timeline-content h4 {
+        font-size: 0.72rem;
+        margin-bottom: 1px;
+    }
+
+    .timeline-content p {
+        font-size: 0.62rem;
+    }
+
+    .vs-text {
+        width: 32px;
+        height: 32px;
+        font-size: 0.85rem;
+    }
+
+    .vs-divider {
+        margin: 5px 0;
+    }
+
+    .characteristic {
+        font-size: 0.62rem;
+        padding: 4px 6px;
+    }
+
+    .approach-characteristics {
+        gap: 4px;
+        padding-top: 8px;
+    }
+
+    .comparison-timeline {
+        margin-bottom: 8px;
+    }
+
+    .challenges-grid {
+        gap: 20px;
+        padding: 0 15px;
+    }
+
+    .column-header {
+        padding: 18px 20px;
+    }
+
+    .column-icon {
+        font-size: 2.5rem;
+        margin-bottom: 8px;
+    }
+
+    .column-header h3 {
+        font-size: 1.25rem;
+    }
+
+    .challenges-list {
+        padding: 20px;
+    }
+
+    .challenge-item,
+    .requirement-item {
+        gap: 12px;
+        margin-bottom: 20px;
+    }
+
+    .item-number,
+    .item-icon {
+        width: 30px;
+        height: 30px;
+    }
+
+    .item-number {
+        font-size: 0.85rem;
+    }
+
+    .item-icon {
+        font-size: 1.6rem;
+    }
+
+    .item-content h4 {
+        font-size: 0.9rem;
+        margin-bottom: 3px;
+    }
+
+    .item-content p {
+        font-size: 0.8rem;
+    }
+
+    .community-content {
+        gap: 20px;
+        padding: 0 15px;
+    }
+
+    .community-header {
+        padding: 18px 20px;
+    }
+
+    .community-icon {
+        font-size: 2.5rem;
+        margin-bottom: 8px;
+    }
+
+    .community-header h3 {
+        font-size: 1.25rem;
+    }
+
+    .community-points {
+        padding: 20px;
+    }
+
+    .point-item {
+        gap: 12px;
+        margin-bottom: 18px;
+    }
+
+    .point-icon {
+        font-size: 1.6rem;
+        width: 32px;
+        height: 32px;
+    }
+
+    .point-text h4 {
+        font-size: 0.95rem;
+    }
+
+    .point-text p {
+        font-size: 0.82rem;
+    }
+
+    .involvement-cards {
+        padding: 16px;
+        gap: 10px;
+    }
+
+    .involvement-card {
+        padding: 12px;
+    }
+
+    .card-header {
+        gap: 8px;
+        margin-bottom: 8px;
+        padding-bottom: 8px;
+    }
+
+    .card-logo {
+        font-size: 2.5rem;
+    }
+
+    .card-info h4 {
+        font-size: 0.95rem;
+    }
+
+    .role-badge {
+        font-size: 0.55rem;
+        padding: 2px 6px;
+    }
+
+    .card-description p {
+        font-size: 0.72rem;
+        margin-bottom: 6px;
+    }
+
+    .card-features li {
+        font-size: 0.68rem;
+        padding-left: 16px;
+        margin-bottom: 3px;
+    }
+
+    .card-features li:before {
+        font-size: 0.75rem;
+    }
+
+    .card-link,
+    .card-links {
+        margin-top: 6px;
+        padding-top: 6px;
+    }
+
+    .card-links {
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .card-link a,
+    .card-links a {
+        font-size: 0.68rem;
+        padding: 4px 7px;
+    }
+
+    .cta-section {
+        padding: 20px 24px;
+        margin: 24px 15px 0 15px;
+    }
+
+    .cta-icon {
+        font-size: 2rem;
+        margin-bottom: 8px;
+    }
+
+    .cta-title {
+        font-size: 1.1rem;
+        margin-bottom: 8px;
+    }
+
+    .cta-text {
+        font-size: 0.85rem;
     }
 
     .profile-circle {
@@ -820,14 +2899,6 @@ body {
 
     .profile-icon {
         font-size: 3rem;
-    }
-
-    .styled-list li {
-        font-size: 1rem;
-    }
-
-    .project-card {
-        padding: 24px;
     }
 
     .final-qr-code {
@@ -841,6 +2912,63 @@ body {
 
     .final-website-url {
         font-size: 1.2rem;
+    }
+
+    .fullscreen-btn {
+        top: 10px;
+        right: 10px;
+        width: 40px;
+        height: 40px;
+    }
+
+    .fullscreen-btn svg {
+        width: 18px;
+        height: 18px;
+    }
+
+    .title-image-side {
+        padding: 30px;
+        min-height: 250px;
+    }
+
+    .title-image-container {
+        max-width: 300px;
+        max-height: 300px;
+        border-radius: 16px;
+    }
+
+    .title-content-side {
+        padding: 30px 20px;
+    }
+
+    .title-content-side .presentation-title {
+        font-size: 2rem;
+    }
+
+    .title-content-side .presentation-subtitle {
+        font-size: 1.2rem;
+        margin-bottom: 40px;
+    }
+
+    .title-content-side .presenter-info {
+        margin-top: 40px;
+        padding-top: 30px;
+    }
+
+    .title-content-side .presenter-name {
+        font-size: 1.1rem;
+    }
+
+    .title-content-side .presenter-role {
+        font-size: 1rem;
+    }
+
+    .slide-indicators {
+        bottom: 15px;
+    }
+
+    .company {
+        font-size: 0.9rem;
     }
 
     .hero-visual .social-info {
@@ -876,5 +3004,423 @@ body {
 
     .qr-label {
         font-size: 0.75rem;
+    }
+
+    .journey-steps {
+        gap: 16px;
+        padding: 15px;
+    }
+
+    .step-card {
+        padding: 16px 14px;
+    }
+
+    .step-icon {
+        font-size: 2rem;
+    }
+
+    .step-title {
+        font-size: 0.95rem;
+        margin-bottom: 12px;
+    }
+
+    .detail-row {
+        padding: 8px;
+        gap: 4px;
+    }
+
+    .detail-role {
+        font-size: 0.8rem;
+    }
+
+    .detail-company {
+        font-size: 0.75rem;
+    }
+
+    .detail-period {
+        font-size: 0.7rem;
+    }
+
+    .step-year {
+        font-size: 2rem;
+    }
+
+    .current-tag {
+        font-size: 0.65rem;
+        padding: 4px 8px;
+    }
+
+    .step-arrow {
+        font-size: 1.8rem;
+    }
+}
+
+/* Landscape orientation fix for mobile devices */
+@media (max-height: 600px) and (orientation: landscape) {
+    .slide {
+        min-height: auto;
+        align-items: center;
+        padding: 15px 20px;
+        padding-top: 20px;
+        padding-bottom: 45px;
+    }
+
+    .slide-header {
+        margin-bottom: 15px;
+    }
+
+    .slide-title {
+        font-size: 1.5rem;
+        margin-bottom: 6px;
+    }
+
+    .slide-subtitle {
+        font-size: 0.9rem;
+    }
+
+    .slide-ai-comparison .slide-title {
+        font-size: 1.5rem;
+    }
+
+    .slide-ai-comparison .slide-subtitle {
+        font-size: 0.9rem;
+    }
+
+    .comparison-container {
+        gap: 20px;
+    }
+
+    .comparison-side {
+        padding: 15px 12px;
+    }
+
+    .comparison-header {
+        margin-bottom: 12px;
+        padding-bottom: 10px;
+    }
+
+    .comparison-flag {
+        font-size: 1.8rem;
+    }
+
+    .comparison-title {
+        font-size: 0.95rem;
+    }
+
+    .comparison-tagline {
+        font-size: 0.7rem;
+    }
+
+    .timeline-item {
+        margin-bottom: 10px;
+        gap: 8px;
+    }
+
+    .timeline-marker {
+        width: 26px;
+        height: 26px;
+        font-size: 0.75rem;
+    }
+
+    .timeline-content h4 {
+        font-size: 0.75rem;
+    }
+
+    .timeline-content p {
+        font-size: 0.65rem;
+    }
+
+    .characteristic {
+        font-size: 0.65rem;
+        padding: 5px 7px;
+    }
+
+    .approach-characteristics {
+        gap: 5px;
+        padding-top: 10px;
+    }
+
+    .comparison-timeline {
+        margin-bottom: 10px;
+    }
+
+    .title-split-layout {
+        min-height: auto;
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .title-image-side {
+        padding: 30px;
+    }
+
+    .title-image-container {
+        max-height: 400px;
+    }
+
+    .title-content-side {
+        padding: 30px;
+    }
+
+    .title-content-side .presentation-title {
+        font-size: 2rem;
+    }
+
+    .title-content-side .presentation-subtitle {
+        font-size: 1.2rem;
+        margin-bottom: 30px;
+    }
+
+    .title-content-side .presenter-info {
+        margin-top: 30px;
+        padding-top: 20px;
+    }
+
+    .hero-slide-container {
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+        padding: 20px;
+    }
+
+    .journey-steps {
+        padding: 10px;
+        gap: 10px;
+    }
+
+    .step-card {
+        min-height: auto;
+        padding: 12px 10px;
+    }
+
+    .tech-insights,
+    .comparison-container,
+    .challenges-grid,
+    .community-content {
+        gap: 20px;
+    }
+
+    .insight-card,
+    .comparison-side,
+    .challenges-column,
+    .community-section {
+        min-height: auto;
+        padding: 20px 16px;
+    }
+
+    .slide-indicators {
+        bottom: 15px;
+    }
+
+    .nav-button {
+        width: 45px;
+        height: 45px;
+    }
+
+    .slide-community {
+        padding: 12px 15px;
+        padding-top: 18px;
+        padding-bottom: 40px;
+    }
+
+    .slide-community .slide-title {
+        font-size: 1.3rem;
+    }
+
+    .slide-community .slide-subtitle {
+        font-size: 0.75rem;
+    }
+
+    .slide-community .slide-header {
+        margin-bottom: 10px;
+    }
+
+    .community-content {
+        gap: 10px;
+    }
+
+    .community-header {
+        padding: 8px 10px;
+    }
+
+    .community-icon {
+        font-size: 1.4rem;
+    }
+
+    .community-header h3 {
+        font-size: 0.8rem;
+    }
+
+    .community-points {
+        padding: 8px;
+    }
+
+    .point-item {
+        margin-bottom: 6px;
+        gap: 6px;
+    }
+
+    .point-icon {
+        font-size: 1.1rem;
+        width: 22px;
+        height: 22px;
+    }
+
+    .point-text h4 {
+        font-size: 0.68rem;
+    }
+
+    .point-text p {
+        font-size: 0.56rem;
+    }
+
+    .involvement-cards {
+        padding: 8px;
+        gap: 5px;
+    }
+
+    .involvement-card {
+        padding: 6px;
+    }
+
+    .card-header {
+        margin-bottom: 4px;
+        padding-bottom: 4px;
+    }
+
+    .card-info h4 {
+        font-size: 0.68rem;
+    }
+
+    .card-description p {
+        font-size: 0.54rem;
+        margin-bottom: 2px;
+    }
+
+    .card-features li {
+        font-size: 0.5rem;
+        margin-bottom: 2px;
+        padding-left: 11px;
+    }
+
+    .card-link a,
+    .card-links a {
+        font-size: 0.52rem;
+        padding: 2px 4px;
+    }
+
+    .cta-section {
+        padding: 8px 10px;
+        margin: 8px auto 0 auto;
+    }
+
+    .cta-icon {
+        font-size: 1.1rem;
+    }
+
+    .cta-title {
+        font-size: 0.72rem;
+    }
+
+    .cta-text {
+        font-size: 0.54rem;
+    }
+}
+
+/* Bento Grid Layout for Slides 9 & 10 */
+.bento-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-auto-rows: minmax(180px, auto);
+    gap: 32px;
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.bento-card {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 36px 32px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.bento-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 40px rgba(37, 99, 235, 0.15);
+}
+
+.bento-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 6px;
+    background: var(--primary-color);
+    opacity: 0.9;
+}
+
+.bento-card.c-red::before { background: #ef4444; }
+.bento-card.c-blue::before { background: #3b82f6; }
+.bento-card.c-green::before { background: #10b981; }
+
+.bento-card.large {
+    grid-column: span 12;
+}
+
+.bento-card.medium {
+    grid-column: span 6;
+}
+
+.bento-icon {
+    font-size: 3rem;
+    margin-bottom: 20px;
+}
+
+.bento-title {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--secondary-color);
+    margin-bottom: 16px;
+    letter-spacing: -0.01em;
+}
+
+.bento-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    flex: 1;
+}
+
+.bento-list li {
+    font-size: 1rem;
+    color: var(--text-color);
+    line-height: 1.6;
+    margin-bottom: 16px;
+    padding-left: 28px;
+    position: relative;
+    font-weight: 500;
+}
+
+.bento-list li:before {
+    content: "→";
+    position: absolute;
+    left: 0;
+    color: var(--primary-color);
+    font-weight: 800;
+}
+
+.bento-card.c-red .bento-list li:before { color: #ef4444; }
+.bento-card.c-green .bento-list li:before { color: #10b981; }
+
+@media (max-width: 1024px) {
+    .bento-card.medium {
+        grid-column: span 12;
     }
 }
