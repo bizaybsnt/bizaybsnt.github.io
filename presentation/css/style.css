@@ -31,29 +31,28 @@ body {
 
 /* Presentation Frame Container */
 .presentation-frame {
-    width: 100%;
-    height: 100vh;
-    max-width: 1920px;
-    max-height: 1080px;
-    position: relative;
+    width: 1920px;
+    height: 1080px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -960px;
+    margin-top: -540px;
     background: #ffffff;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-    margin: 0 auto;
     overflow: hidden;
+    will-change: transform;
 }
 
-/* Only show frame on screens larger than HD */
-@media (min-width: 1921px) or (min-height: 1081px) {
+/* Only show frame borders on large screens */
+@media (min-width: 1921px) {
     .presentation-frame {
         border-radius: 8px;
     }
 }
 
-/* For smaller screens, use full viewport */
-@media (max-width: 1920px) and (max-height: 1080px) {
+@media (max-width: 1920px) {
     .presentation-frame {
-        max-width: 100%;
-        max-height: 100%;
         box-shadow: none;
     }
 
@@ -269,10 +268,105 @@ body {
         opacity: 0;
         transform: translateY(30px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
     }
+}
+
+/* --- Standardized Headers --- */
+/* Top Header Elements */
+.top-header-container {
+    margin-bottom: 1.5rem;
+    z-index: 5;
+    position: relative;
+}
+
+.top-header-container.centered {
+    text-align: center;
+}
+
+.top-header-tag {
+    font-weight: 700;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    display: inline-block;
+    padding: 0.3rem 1rem;
+    border-radius: 30px;
+    margin-bottom: 0.5rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
+}
+
+.top-header-title {
+    font-size: 2.8rem;
+    margin: 0;
+    color: var(--secondary-color);
+    line-height: 1.2;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Side Header Elements */
+.side-header-tag {
+    font-weight: 700;
+    font-size: 1.15rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 1rem;
+    display: block;
+}
+
+.side-header-title {
+    font-size: 3.2rem;
+    margin-bottom: 2rem;
+    line-height: 1.2;
+    text-align: left;
+    color: var(--secondary-color);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Tag Colors */
+.tag-pill-indigo {
+    color: #6366f1;
+    background: #e0e7ff;
+    border: 1px solid #c7d2fe;
+}
+
+.tag-pill-rose {
+    color: #f43f5e;
+    background: #ffe4e6;
+    border: 1px solid #fecdd3;
+}
+
+.tag-pill-yellow {
+    color: #eab308;
+    background: #fefce8;
+    border: 1px solid #fef08a;
+}
+
+.tag-pill-purple {
+    color: #8b5cf6;
+    background: #ede9fe;
+    border: 1px solid #ddd6fe;
+}
+
+.tag-pill-emerald {
+    color: #10b981;
+    background: #ecfdf5;
+    border: 1px solid #d1fae5;
+}
+
+.tag-text-blue {
+    color: #3b82f6;
+}
+
+.tag-text-rose {
+    color: #ef4444;
 }
 
 /* Slide 1 - Title Slide */
@@ -524,9 +618,17 @@ body {
     border-radius: 50%;
 }
 
-.dot.red { background: #ef4444; }
-.dot.yellow { background: #eab308; }
-.dot.green { background: #22c55e; }
+.dot.red {
+    background: #ef4444;
+}
+
+.dot.yellow {
+    background: #eab308;
+}
+
+.dot.green {
+    background: #22c55e;
+}
 
 .code-content {
     padding: 24px;
@@ -2478,6 +2580,7 @@ body {
     .slide-ai-comparison .slide-header {
         margin-bottom: 12px;
     }
+
     .slide-community {
         padding: 10px 8px;
         padding-top: 18px;
@@ -2601,6 +2704,7 @@ body {
     .cta-text {
         font-size: 0.48rem;
     }
+
     .slide {
         padding: 12px 10px;
         padding-top: 20px;
@@ -3366,9 +3470,17 @@ body {
     opacity: 0.9;
 }
 
-.bento-card.c-red::before { background: #ef4444; }
-.bento-card.c-blue::before { background: #3b82f6; }
-.bento-card.c-green::before { background: #10b981; }
+.bento-card.c-red::before {
+    background: #ef4444;
+}
+
+.bento-card.c-blue::before {
+    background: #3b82f6;
+}
+
+.bento-card.c-green::before {
+    background: #10b981;
+}
 
 .bento-card.large {
     grid-column: span 12;
@@ -3416,8 +3528,13 @@ body {
     font-weight: 800;
 }
 
-.bento-card.c-red .bento-list li:before { color: #ef4444; }
-.bento-card.c-green .bento-list li:before { color: #10b981; }
+.bento-card.c-red .bento-list li:before {
+    color: #ef4444;
+}
+
+.bento-card.c-green .bento-list li:before {
+    color: #10b981;
+}
 
 @media (max-width: 1024px) {
     .bento-card.medium {

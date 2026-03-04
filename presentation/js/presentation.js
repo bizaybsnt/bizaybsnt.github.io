@@ -11,6 +11,7 @@ class PresentationController {
 
     init() {
         // Set up event listeners
+        this.setupResponsiveScaling();
         this.setupNavigation();
         this.setupKeyboard();
         this.setupFullscreen();
@@ -19,6 +20,34 @@ class PresentationController {
 
         // Show particles on first slide
         this.toggleParticles();
+    }
+
+    setupResponsiveScaling() {
+        const frame = document.querySelector('.presentation-frame');
+        if (!frame) return;
+
+        const updateScale = () => {
+            const windowWidth = window.innerWidth;
+            const windowHeight = window.innerHeight;
+
+            // Standard HD aspect ratio
+            const targetWidth = 1920;
+            const targetHeight = 1080;
+
+            // Calculate scale based on which dimension is the constricting factor
+            const scaleX = windowWidth / targetWidth;
+            const scaleY = windowHeight / targetHeight;
+            const scale = Math.min(scaleX, scaleY);
+
+            // Apply scale safely
+            frame.style.transform = `scale(${scale})`;
+        };
+
+        window.addEventListener('resize', updateScale);
+        updateScale(); // Initial call
+
+        // Handle delayed resizing for mobile/dynamic viewports
+        setTimeout(updateScale, 100);
     }
 
     setupParticles() {
@@ -123,7 +152,7 @@ class PresentationController {
 
     setupKeyboard() {
         document.addEventListener('keydown', (e) => {
-            switch(e.key) {
+            switch (e.key) {
                 case 'ArrowLeft':
                 case 'ArrowUp':
                     e.preventDefault();
