@@ -3548,3 +3548,94 @@ body {
         grid-column: span 12;
     }
 }
+/* Global Mobile Fixes */
+@media (max-width: 768px) {
+    .slide {
+        display: block !important;
+        overflow-y: auto !important;
+        height: auto !important;
+        min-height: 100vh;
+        overflow-x: hidden;
+    }
+    .slide-content {
+        height: auto !important;
+        max-height: none !important;
+        overflow: visible;
+    }
+    
+    .title-split-layout {
+        display: flex !important;
+        flex-direction: column !important;
+        height: auto !important;
+    }
+    
+    .title-content-side {
+        padding: 40px 20px !important;
+        order: 1;
+    }
+    
+    .title-image-side {
+        padding: 20px !important;
+        order: 2;
+    }
+    
+    .key-points {
+        gap: 1rem !important;
+    }
+    
+    .point-card {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 1rem !important;
+    }
+    
+    .point-icon {
+        margin-bottom: 0.5rem;
+    }
+
+    /* Slides with flex row styling inline */
+    div[style*="align-items: stretch"] {
+        flex-direction: column !important;
+        height: auto !important;
+    }
+    
+    /* Center images in mobile layout */
+    .title-image-side > div,
+    [style*="display: grid"] {
+        margin: 0 auto !important;
+    }
+    
+    /* Make flex rows wrap */
+    [style*="display: flex"] {
+        flex-wrap: wrap !important;
+    }
+    
+    .side-header-title {
+        font-size: 2.2rem !important;
+        text-align: center !important;
+        width: 100%;
+    }
+    
+    .presentation-title {
+        font-size: 2.5rem !important;
+        text-align: center !important;
+    }
+    
+    .presentation-subtitle, .side-header-tag {
+        text-align: center !important;
+        width: 100%;
+    }
+    
+    .top-header-title {
+        font-size: 2rem !important;
+    }
+
+    [class*="bento-"] {
+        min-height: auto !important;
+    }
+    
+    .connections-layout {
+        grid-template-columns: 1fr !important;
+    }
+}

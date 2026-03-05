@@ -34,13 +34,32 @@ class PresentationController {
             const targetWidth = 1920;
             const targetHeight = 1080;
 
-            // Calculate scale based on which dimension is the constricting factor
-            const scaleX = windowWidth / targetWidth;
-            const scaleY = windowHeight / targetHeight;
-            const scale = Math.min(scaleX, scaleY);
+            if (windowWidth <= 768 || windowHeight <= 600) {
+                // Disable fixed scaling for mobile devices
+                frame.style.transform = 'none';
+                frame.style.width = '100vw';
+                frame.style.height = '100vh';
+                frame.style.position = 'fixed';
+                frame.style.left = '0';
+                frame.style.top = '0';
+                frame.style.marginLeft = '0';
+                frame.style.marginTop = '0';
+            } else {
+                // Calculate scale based on which dimension is the constricting factor
+                const scaleX = windowWidth / targetWidth;
+                const scaleY = windowHeight / targetHeight;
+                const scale = Math.min(scaleX, scaleY);
 
-            // Apply scale safely
-            frame.style.transform = `scale(${scale})`;
+                // Apply scale safely
+                frame.style.width = targetWidth + 'px';
+                frame.style.height = targetHeight + 'px';
+                frame.style.position = 'absolute';
+                frame.style.left = '50%';
+                frame.style.top = '50%';
+                frame.style.marginLeft = -(targetWidth / 2) + 'px';
+                frame.style.marginTop = -(targetHeight / 2) + 'px';
+                frame.style.transform = `scale(${scale})`;
+            }
         };
 
         window.addEventListener('resize', updateScale);
